@@ -4,9 +4,8 @@ require "rails"
 # Pick the frameworks you want:
 require "active_model/railtie"
 # require "active_job/railtie"
-require "active_record/railtie"
-# require "active_storage/engine"
 require "action_controller/railtie"
+require 'active_support/core_ext/numeric/bytes'
 # require "action_mailer/railtie"
 # require "action_mailbox/engine"
 # require "action_text/engine"
@@ -35,5 +34,7 @@ module DeviceReader
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    config.cache_store = :memory_store, { size: 64.megabytes }
+    config.action_controller.perform_caching = true
   end
 end
