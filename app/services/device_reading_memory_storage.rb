@@ -1,4 +1,8 @@
 class DeviceReadingMemoryStorage
+  def self.read(params:)
+    new(device_reading: DeviceReading.build(params:)).to_h
+  end
+
   def self.ingest!(params:)
     new(device_reading: DeviceReading.create!(params:)).ingest!
   end
@@ -7,6 +11,21 @@ class DeviceReadingMemoryStorage
   def initialize(device_reading:, memory_store: Rails.cache)
     @memory_store = memory_store
     @device_reading = device_reading
+  end
+
+  def to_h
+    {
+      cumulative_count:,
+      latest_timestamp:,
+    }
+  end
+
+  def cumulative_count
+    memory_store.read("#{device_reading.id}/cumulative_count") || 0
+  end
+
+  def latest_timestamp
+    memory_store.read("#{device_reading.id}/latest_timestamp") || ""
   end
 
   def ingest!

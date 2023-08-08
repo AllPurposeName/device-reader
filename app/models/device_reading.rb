@@ -9,9 +9,13 @@ class DeviceReading
   end
 
   def self.create!(params:)
-    device_record = new(id: params[:id], readings: params[:readings])
+    device_record = build(params:)
     device_record.valid?
     device_record
+  end
+
+  def self.build(params:)
+    new(id: params[:id], readings: params[:readings])
   end
 
   def hashed

@@ -3,5 +3,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :device_reading, only: [:create]
+  resources :device_reading, only: [:create, :show]
 end
